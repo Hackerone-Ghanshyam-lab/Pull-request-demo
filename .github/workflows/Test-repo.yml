@@ -1,0 +1,25 @@
+name: Vulnerable PR Lab
+
+on:
+  pull_request_target:
+
+permissions:
+  contents: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout PR code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Run tests
+        env:
+          LAB_SECRET: ${{ secrets.LAB_SECRET }}
+        run: |
+          echo "Running tests..."
+          npm install
+          npm test
