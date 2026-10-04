@@ -1,4 +1,4 @@
-name: Vulnerable PR Lab
+name: Vulnerable PR Security Lab
 
 on:
   pull_request_target:
@@ -16,12 +16,19 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
+          allow-unsafe-pr-checkout: true
 
-      - name: Security Impact
+      - name: Show Security Context
         env:
           LAB_SECRET: ${{ secrets.LAB_SECRET }}
         run: |
-          echo "=== SECURITY LAB ==="
-          echo "Privileged workflow is executing PR code."
-          echo "Repository secret is available to this job."
-          echo "This combination creates a secret-exposure risk."
+          echo "================================"
+          echo "       SECURITY LAB"
+          echo "================================"
+          echo "Workflow: pull_request_target"
+          echo "PR code: checked out"
+          echo "Repository write permission: ENABLED"
+          echo "Repository secret: AVAILABLE TO JOB"
+          echo "================================"
+          echo "This combination is dangerous."
+          echo "Untrusted PR code is running in a privileged context."
