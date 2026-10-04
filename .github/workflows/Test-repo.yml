@@ -8,7 +8,7 @@ permissions:
   contents: write
 
 jobs:
-  test:
+  security-lab:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,10 +17,11 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
-      - name: Run tests
+      - name: Security Impact
         env:
           LAB_SECRET: ${{ secrets.LAB_SECRET }}
         run: |
-          echo "Running tests..."
-          npm install
-          npm test
+          echo "=== SECURITY LAB ==="
+          echo "Privileged workflow is executing PR code."
+          echo "Repository secret is available to this job."
+          echo "This combination creates a secret-exposure risk."
