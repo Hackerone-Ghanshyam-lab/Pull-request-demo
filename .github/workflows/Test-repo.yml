@@ -1,21 +1,22 @@
-name: PR Merge Security Lab
+name: Secure PR Lab
 
 on:
-  pull_request_target:
-    types: [opened, synchronize]
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
+  pull-requests: read
 
 jobs:
-  lab:
+  checks:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Security Lab
+      - name: Checkout PR
+        uses: actions/checkout@v4
+
+      - name: Security checks
         run: |
-          echo "PR received"
-          echo "Workflow has write permission"
-          echo "Workflow has pull-request write permission"
-          echo "An unsafe implementation could now modify/merge the PR."
+          echo "Running security checks..."
+          echo "PR must pass all checks before merge."
